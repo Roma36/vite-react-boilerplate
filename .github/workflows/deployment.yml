@@ -30,6 +30,9 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           role-duration-seconds: 900
 
+      - name: Test AWS Credentials
+        run: aws s3 ls s3://${{ secrets.AWS_S3_BUCKET }}
+
   end-to-end:
     name: Playwright E2E Tests
     timeout-minutes: 60
