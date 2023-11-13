@@ -53,13 +53,6 @@ jobs:
         if: github.ref == 'refs/heads/main'
         uses: actions/checkout@v4
 
-      - name: Check AWS CLI Version and Configuration
-        if: always() && github.ref == 'refs/heads/main'
-        run: |
-          aws configure get region --debug
-          aws --version
-          aws configure list --debug
-
       - uses: actions/setup-node@v4
         if: github.ref == 'refs/heads/main'
         with:
