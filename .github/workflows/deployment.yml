@@ -64,6 +64,7 @@ jobs:
         run: zip -r ${{ github.run_id }}.zip playwright-report/ test-results/
 
       - name: Check AWS CLI Version and Configuration
+        if: always() && github.ref == 'refs/heads/main'
         run: |
           aws --version
           aws configure list
