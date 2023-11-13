@@ -73,19 +73,21 @@ jobs:
 
       - name: Zip Reports and Results
         if: always() && github.ref == 'refs/heads/main'
-        run: zip -r ${{ github.run_id }}.zip playwright-report/ test-results/
+        run: |
+          DATE=$(date +%Y-%m-%d)
+          PLAYWRIGHT_REPORT_ZIP="${DATE}-${{ github.run_id }}.zip"
+          echo "PLAYWRIGHT_REPORT_ZIP=$PLAYWRIGHT_REPORT_ZIP" >> $GITHUB_ENV
+          zip -r $PLAYWRIGHT_REPORT_ZIP playwright-report/ test-results/
 
       - name: Upload Playwright Report to S3
         if: always() && github.ref == 'refs/heads/main'
-        run: |
-          export AWS_CLI_LOG_LEVEL=debug
-          aws s3 cp ${{ github.run_id }}.zip s3://${{ secrets.AWS_S3_BUCKET }}/playwright-reports/${{ github.run_id }}.zip --debug
+        run: aws s3 cp $PLAYWRIGHT_REPORT_ZIP s3://${{ secrets.AWS_S3_BUCKET }}/playwright-reports/${{ env.PLAYWRIGHT_REPORT_ZIP }}
 
       - name: Generate S3 Report URL
         if: always() && github.ref == 'refs/heads/main'
         id: generate-playwright-s3-url
         run: |
-          PLAYWRIGHT_REPORT_URL=$(aws s3 presign s3://${{ secrets.AWS_S3_BUCKET }}/playwright-reports/${{ github.run_id }}.zip --debug)
+          PLAYWRIGHT_REPORT_URL=$(aws s3 presign s3://${{ secrets.AWS_S3_BUCKET }}/playwright-reports/${{ env.PLAYWRIGHT_REPORT_ZIP }})
           echo "PLAYWRIGHT_REPORT_URL=$PLAYWRIGHT_REPORT_URL" >> $GITHUB_ENV
 
       - uses: actions/upload-artifact@v3
