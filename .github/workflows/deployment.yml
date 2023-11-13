@@ -70,7 +70,7 @@ jobs:
         if: always() && github.ref == 'refs/heads/main'
         id: generate-playwright-s3-url
         run: |
-          PLAYWRIGHT_REPORT_URL=$(aws s3 presign s3://${{ secrets.AWS_S3_BUCKET }}/playwright-reports/${{ github.run_id }}/)
+          PLAYWRIGHT_REPORT_URL=$(aws s3 presign s3://${{ secrets.AWS_S3_BUCKET }}/playwright-reports/${{ github.run_id }}.zip)
           echo "PLAYWRIGHT_REPORT_URL=$PLAYWRIGHT_REPORT_URL" >> $GITHUB_ENV
 
       - uses: actions/upload-artifact@v3
