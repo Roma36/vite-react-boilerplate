@@ -64,7 +64,9 @@ jobs:
 
       - name: Upload Playwright Report to S3
         if: always() && github.ref == 'refs/heads/main'
-        run: aws s3 cp ${{ github.run_id }}.zip s3://${{ secrets.AWS_S3_BUCKET }}/playwright-reports/
+        run: |
+          export AWS_CLI_LOG_LEVEL=debug
+          aws s3 cp ${{ github.run_id }}.zip s3://${{ secrets.AWS_S3_BUCKET }}/playwright-reports/
 
       - name: Generate S3 Report URL
         if: always() && github.ref == 'refs/heads/main'
