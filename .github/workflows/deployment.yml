@@ -59,11 +59,12 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: npm run test:e2e
 
+      - name: Zip Reports and Results
+        run: zip -r ${{ github.run_id }}.zip playwright-report/ test-results/
+
       - name: Upload Playwright Report to S3
         if: always() && github.ref == 'refs/heads/main'
-        run: |
-          aws s3 cp playwright-report/ s3://${{ secrets.AWS_S3_BUCKET }}/playwright-reports/${{ github.run_id }}/playwright-report/ --recursive
-          aws s3 cp test-results/ s3://${{ secrets.AWS_S3_BUCKET }}/playwright-reports/${{ github.run_id }}/test-results/ --recursive
+        run: aws s3 cp ${{ github.run_id }}.zip s3://${{ secrets.AWS_S3_BUCKET }}/playwright-reports/
 
       - name: Generate S3 Report URL
         if: always() && github.ref == 'refs/heads/main'
