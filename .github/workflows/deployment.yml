@@ -44,6 +44,13 @@ jobs:
         if: github.ref == 'refs/heads/main'
         uses: actions/checkout@v4
 
+      - name: Check AWS CLI Version and Configuration
+        if: always() && github.ref == 'refs/heads/main'
+        run: |
+          aws configure get region --debug
+          aws --version
+          aws configure list --debug
+
       - uses: actions/setup-node@v4
         if: github.ref == 'refs/heads/main'
         with:
@@ -65,13 +72,6 @@ jobs:
       - name: Zip Reports and Results
         if: always() && github.ref == 'refs/heads/main'
         run: zip -r ${{ github.run_id }}.zip playwright-report/ test-results/
-
-      - name: Check AWS CLI Version and Configuration
-        if: always() && github.ref == 'refs/heads/main'
-        run: |
-          aws configure get region
-          aws --version
-          aws configure list
 
       - name: Upload Playwright Report to S3
         if: always() && github.ref == 'refs/heads/main'
