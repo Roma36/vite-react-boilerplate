@@ -71,6 +71,7 @@ jobs:
         run: |
           aws --version
           aws configure list
+          aws configure get region
 
       - name: Upload Playwright Report to S3
         if: always() && github.ref == 'refs/heads/main'
