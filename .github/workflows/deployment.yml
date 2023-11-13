@@ -65,7 +65,7 @@ jobs:
 
       - name: Install Playwright Browsers
         if: github.ref == 'refs/heads/main'
-        run: npm run setup
+        run: npx playwright install --with-deps chromium
 
       - name: Run Playwright tests
         if: github.ref == 'refs/heads/main'
