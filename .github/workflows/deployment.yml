@@ -76,7 +76,7 @@ jobs:
         if: always() && github.ref == 'refs/heads/main'
         run: |
           export AWS_CLI_LOG_LEVEL=debug
-          aws s3 cp ${{ github.run_id }}.zip s3://${{ secrets.AWS_S3_BUCKET }}/playwright-reports/ --debug
+          aws s3 cp ${{ github.run_id }}.zip s3://${{ secrets.AWS_S3_BUCKET }}/playwright-reports/${{ github.run_id }}.zip --debug
 
       - name: Generate S3 Report URL
         if: always() && github.ref == 'refs/heads/main'
