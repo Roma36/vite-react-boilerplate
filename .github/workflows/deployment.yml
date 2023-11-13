@@ -45,7 +45,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         with:
           node-version: "16"
-          cache: "yarn"
+          cache: "npm"
 
       - name: Install dependencies
         if: github.ref == 'refs/heads/main'
