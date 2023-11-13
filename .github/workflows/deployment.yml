@@ -37,6 +37,8 @@ jobs:
     name: Playwright E2E Tests
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     needs: ["build-and-deploy"]
 
     steps:
