@@ -60,6 +60,7 @@ jobs:
         run: npm run test:e2e
 
       - name: Zip Reports and Results
+        if: always() && github.ref == 'refs/heads/main'
         run: zip -r ${{ github.run_id }}.zip playwright-report/ test-results/
 
       - name: Upload Playwright Report to S3
