@@ -74,8 +74,8 @@ jobs:
       - name: Zip Reports and Results
         if: always() && github.ref == 'refs/heads/main'
         run: |
-          DATE=$(date +%Y-%m-%d)
-          PLAYWRIGHT_REPORT_ZIP="${DATE}-${{ github.run_id }}.zip"
+          DATE=$(date +'%Y-%m-%dT%H:%M:%S')
+          PLAYWRIGHT_REPORT_ZIP="${{ github.run_id }}-${DATE}.zip"
           echo "PLAYWRIGHT_REPORT_ZIP=$PLAYWRIGHT_REPORT_ZIP" >> $GITHUB_ENV
           zip -r $PLAYWRIGHT_REPORT_ZIP playwright-report/ test-results/
 
