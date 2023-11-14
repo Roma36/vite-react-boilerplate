@@ -39,6 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
+      contents: read
     needs: ["build-and-deploy"]
 
     steps:
@@ -99,6 +100,6 @@ jobs:
             test-results/
           retention-days: 30
 
-      - name: Report Status
+      - name: Report Summary
         if: always() && github.ref == 'refs/heads/main'
-        run: echo $PLAYWRIGHT_REPORT_URL
+        run: echo "[Download Playwright Report]($PLAYWRIGHT_REPORT_URL) 🚀" >> $GITHUB_STEP_SUMMARY
