@@ -78,7 +78,7 @@ jobs:
           DATE=$(date +'%Y-%m-%dT%H_%M_%S')
           PLAYWRIGHT_REPORT_NAME="${{ github.run_id }}-${DATE}"
           echo "PLAYWRIGHT_REPORT_NAME=$PLAYWRIGHT_REPORT_NAME" >> $GITHUB_ENV
-          zip -r ${PLAYWRIGHT_REPORT_NAME}.zip playwright-report/ test-results/
+          zip -r "${PLAYWRIGHT_REPORT_NAME}.zip" playwright-report/ test-results/
 
       - name: Upload Playwright Report to S3
         if: always() && github.ref == 'refs/heads/main'
